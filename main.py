@@ -99,7 +99,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # print the time
-    print(f'running main.py at time: {time.time()}')
+    print(f'running main.py at date: {time.strftime("%Y-%m-%d %H:%M:%S")}')
     print(f'with args: {args}')
 
     import runpy
