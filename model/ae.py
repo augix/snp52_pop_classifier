@@ -13,18 +13,18 @@ class theModel(nn.Module):
         cs = config.cs
         cd = config.cd
         seqlen = config.seqlen+1 if config.add_cls else config.seqlen
-        self.compress1 = nn.Linear(d_emb, cd)
-        self.compress2 = nn.Linear(seqlen, cs)
-        # self.compress1 = mlp(d_emb, rounded_square_root(d_emb*cd), cd, config.dropout)
-        # self.compress2 = mlp(seqlen, rounded_square_root(seqlen*cs), cs, config.dropout)
+        # self.compress1 = nn.Linear(d_emb, cd)
+        # self.compress2 = nn.Linear(seqlen, cs)
+        self.compress1 = mlp(d_emb, rounded_square_root(d_emb*cd), cd, config.dropout)
+        self.compress2 = mlp(seqlen, rounded_square_root(seqlen*cs), cs, config.dropout)
         self.norm_emb = RMSNorm(cs*cd)
         # self.dropout = nn.Dropout(config.dropout)
         self.head = mlp(cs*cd, rounded_square_root(cs*cd*n_output_values), n_output_values, config.dropout)
         # self.head = nn.Linear(cs*cd, n_output_values)
-        self.decompress1 = nn.Linear(cd, d_emb)
-        self.decompress2 = nn.Linear(cs, seqlen)
-        # self.decompress1 = mlp(cd, rounded_square_root(d_emb*cd), d_emb, config.dropout)
-        # self.decompress2 = mlp(cs, rounded_square_root(seqlen*cs), seqlen, config.dropout)
+        # self.decompress1 = nn.Linear(cd, d_emb)
+        # self.decompress2 = nn.Linear(cs, seqlen)
+        self.decompress1 = mlp(cd, rounded_square_root(d_emb*cd), d_emb, config.dropout)
+        self.decompress2 = mlp(cs, rounded_square_root(seqlen*cs), seqlen, config.dropout)
         
     def decompress_seq_len(self, x):
         # x.shape: [batch, cs, cd]

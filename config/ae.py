@@ -14,18 +14,19 @@ config = Namespace(
 
     # == all populations ==
     fn_emb_train   = '../task48c_prepare_kinship_data_ped-sim/res_s3_train_40_trees/emb.pt',
-    fn_labels_train = '../task48c_prepare_kinship_data_ped-sim/res_s1_train_40_trees/sample_info_train.tsv',
+    fn_labels_train = '../task48c_prepare_kinship_data_ped-sim/res_s1_train_40_trees/sample_info_train_v2.tsv',
     fn_emb_val   = '../task48c_prepare_kinship_data_ped-sim/res_s3_val_4_trees/emb.pt',
-    fn_labels_val = '../task48c_prepare_kinship_data_ped-sim/res_s1_val_4_trees/sample_info_val.tsv',
+    fn_labels_val = '../task48c_prepare_kinship_data_ped-sim/res_s1_val_4_trees/sample_info_val_v2.tsv',
 
     # subset data, only train and validate certain populations and certain kinship values
+    # populations = [
+    #     'ACB', 'ASW', 'BEB', 'CDX', 'CEU', 'CHB', 'CHS', 'CLM', 'ESN', 'FIN', 'GBR', 'GIH', 'GWD', 
+    #     'IBS', 'ITU', 'JPT', 'KHV', 'LWK', 'MSL', 'MXL', 'PEL', 'PJL', 'PUR', 'STU', 'TSI', 'YRI'],
     populations = [
-        'ACB', 'ASW', 'BEB', 'CDX', 'CEU', 'CHB', 'CHS', 'CLM', 'ESN', 'FIN', 'GBR', 'GIH', 'GWD', 
-        'IBS', 'ITU', 'JPT', 'KHV', 'LWK', 'MSL', 'MXL', 'PEL', 'PJL', 'PUR', 'STU', 'TSI', 'YRI'],
-    # populations = ['BEB', 'CDX', 'CEU', 'CHB', 'CHS', 'CLM', 'FIN','GBR', 'GIH', 'IBS', 'ITU', 'JPT', 'KHV', 'MXL', 'PEL', 'PJL', 'PUR', 'STU', 'TSI'],
-    # populations = ['AMR', 'EAS', 'EUR', 'SAS'],
+        'BEB', 'CDX', 'CEU+GBR', 'CHB', 'CHS', 'CLM', 'ESN', 'FIN', 'GWD', 
+        'IBS', 'JPT', 'KHV', 'LWK', 'MSL', 'PEL', 'PJL', 'PUR', 'TSI', 'YRI'],
 
-    n_output_values = 26,               # Number of possible output values: 0-25 populations
+    n_output_values = 19,               # Number of possible output values: 0-25 populations
 
     # training
     add_cls = False,
@@ -34,7 +35,7 @@ config = Namespace(
     bs_train = 16,                      # Reduced batch size for training to save memory
     bs_val = 16,                        # Reduced batch size for validation to save memory
     n_id = 3000,                        # Number of contig IDs, 2935 for all contigs in a genome
-    mask_fraction = 0.0,               # Fraction of masking
+    mask_fraction = 0.1,               # Fraction of masking
 
     # model 
     model_py = 'model/ae.py',  # Path to model module

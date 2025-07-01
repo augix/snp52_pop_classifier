@@ -1,5 +1,6 @@
 __pycache__/
 *.log
-results*/
+*results*/
 data/raw/
 swanlog/
+wandb/
