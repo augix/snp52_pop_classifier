@@ -70,7 +70,7 @@ class theDataset(Dataset):
         population = self.labels[idx]
         person = self.persons[idx]
 
-        population = torch.tensor(population, dtype=torch.int32)
+        population = torch.tensor(population, dtype=torch.int64) # int64 is required for torch cross entropy loss
         contig, emb = self.get_seq(person)
 
         record = {
