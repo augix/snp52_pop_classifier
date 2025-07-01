@@ -39,6 +39,8 @@ class theDataset(Dataset):
     def init_labels(self, fn):
         print(f'init_labels: {fn}')
         df = pd.read_csv(fn, sep='\t', header=0)
+        # subset to the populations in the config
+        df = df[df['Population'].isin(self.config.populations)]
         df['Population_i'] = df['Population'].astype('category').cat.codes
         self.labels = df['Population_i']
         self.size = len(self.labels)
