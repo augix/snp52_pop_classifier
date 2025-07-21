@@ -16,7 +16,7 @@ def plot_confusion_matrix(conf_mat, outdir, current_epoch):
     plt.colorbar()
     plt.ylabel('Expected', fontsize=14)
     plt.xlabel('Predicted', fontsize=14)
-    plt.title(f"Confusion Matrix - Epoch {current_epoch}, accuracy {accuracy:.3f}", fontsize=16)
+    plt.title(f"Epoch {current_epoch}, accuracy {accuracy:.3f}, total {total}", fontsize=16)
     
     # Set integer ticks only
     n_classes = conf_mat.shape[0]
@@ -63,7 +63,7 @@ def plot_confusion_matrix_with_bubbles(conf_mat, outdir, current_epoch):
     
     plt.xlabel('Expected', fontsize=20)
     plt.ylabel('Predicted', fontsize=20)
-    plt.title(f"Confusion Matrix - Epoch {current_epoch}, accuracy {accuracy:.3f}", fontsize=20)
+    plt.title(f"Epoch {current_epoch}, accuracy {accuracy:.3f}", fontsize=20)
     
     # Set integer ticks
     ticks = np.arange(0,n_classes)

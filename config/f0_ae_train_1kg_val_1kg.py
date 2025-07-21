@@ -27,16 +27,23 @@ config = Namespace(
     add_cls = False,
     n_cls = 0,                         # Number of cls tokens reserved
     cpu_per_worker = 2,                # Number of CPU cores per worker for data loading
-    bs_train = 4,                      # Reduced batch size for training to save memory
+    bs_train = 32,                      # Reduced batch size for training to save memory
     bs_val = 4,                        # Reduced batch size for validation to save memory
     n_id = 3000,                        # Number of contig IDs, 2935 for all contigs in a genome
-    mask_fraction = 0.1,               # Fraction of masking
+    mask_fraction = 0.0,               # Fraction of masking
 
     # model 
     model_py = 'model/ae.py',  # Path to model module
     model_wrapper_py = 'trainer/pl_module_ae.py',  # Path to model wrapper module
-    dropout = 0.1,                     # Dropout rate
+    dropout = 0.0,                     # Dropout rate
     seqlen = 2934,
+
+    # ae
+    cs = 8,
+    cd = 8,
+    beta0 = 1,
+    beta1 = 1,
+
     # attention
     n_layers = 4,                      # Number of transformer layers
     n_heads = 4,                       # Number of attention heads
@@ -44,11 +51,6 @@ config = Namespace(
     d_ffn = 128*2,                      # Feed-forward network dimension
     d_emb = 128,                    # Dimension of the embeddings
     d_id = 14,                         # Dimension of ID embeddings, 4 for 2^4=16, 6 for 2^6=64, 8 for 2^8=256, 10 for 2^10=1024, 12 for 2^12=4096, 14 for 2^14=16384, 16 for 2^16=65536, 2^17 for 2^17=131072, 32 for 2^32=4294967296
-    # compression
-    cs = 8,
-    cd = 8,
-    beta0 = 1,
-    beta1 = 1,
 
     # training 
     train_or_test = 'train',            # Whether to train or test
