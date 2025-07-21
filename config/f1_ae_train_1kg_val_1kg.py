@@ -3,7 +3,7 @@ import torch
 import os
 
 config = Namespace(
-    name = 'ae_train_1kg_val_1kg_f1',
+    name = 'f1_ae_train_1kg_val_1kg',
     platform = 'sanya',
 
     # data 
