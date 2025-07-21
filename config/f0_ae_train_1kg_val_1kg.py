@@ -42,7 +42,7 @@ config = Namespace(
     cs = 8,
     cd = 8,
     beta0 = 1,
-    beta1 = 1,
+    beta1 = 0.5,
 
     # attention
     n_layers = 4,                      # Number of transformer layers
@@ -59,7 +59,7 @@ config = Namespace(
     precision = '32',           # Precision for training: 'bf16-true', '16-mixed', '16-true', '32-true'
     # dtype = torch.bfloat16,            # Data type for model parameters
     dtype = torch.float32,            # Data type for model parameters
-    lr = 1e-2,                         # Learning rate
+    lr = 1e-3,                         # Learning rate
     weight_decay = 1e-4,               # Weight decay for optimizer
     accumulate_grad_batches = 1,       # Number of gradient accumulation steps
     max_grad_norm = 1,                 # Maximum gradient norm for clipping. 1.0 is conservative, 0.5 is aggressive, 0.0 is no clipping, 5.0 allows large gradients
@@ -68,7 +68,7 @@ config = Namespace(
     log_every_n_steps = 4,            # Log metrics every N steps
     nnodes = 1,                        # Number of nodes for distributed training
     devices = 'auto',                  # GPU ids to use ('auto' for all available)
-    use_swa = True,                    # Whether to use SWA
+    use_swa = False,                    # Whether to use SWA
     confusion_plot = True,
 
 )
