@@ -2,6 +2,8 @@ from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch import Callback
 import torch
 from trainer.plots import plot_confusion_matrix, plot_predictions, plot_scatter, plot_confusion_matrix_with_bubbles
+import torch.distributed as dist
+import numpy as np
 
 # Callbacks
 def best_ckpt_callback(dirpath):
@@ -21,39 +23,46 @@ class confusion_plot_callback(Callback):
         self.confusion_matrices = []
         self.config = config
 
-    def batch_end(self, trainer, outputs):
-        if trainer.global_rank == 0:
-            # Move to CPU immediately
-            conf_matrix = outputs['confusion_matrix'].detach().cpu()
-            # Store as lists
-            self.confusion_matrices.append(conf_matrix)
-        
-    def epoch_end(self, trainer):
-        if trainer.global_rank == 0: 
-            # calculate sum of confusion matrix
-            all_confusion_matrices = torch.stack(self.confusion_matrices)
-            sum_confusion_matrix = torch.sum(all_confusion_matrices, dim=0)
+    def on_batch_end(self, outputs):
+        self.confusion_matrices.append(outputs['confusion_matrix'])
+
+    def on_epoch_end(self, trainer, pl_module):
+        local_cm = torch.stack(self.confusion_matrices)
+        local_cm = torch.sum(local_cm, dim=0)
+        local_cm = local_cm.to(pl_module.device)
+        if trainer.world_size > 1:
+            dist.barrier()
+            global_cm = local_cm.clone().detach()
+            dist.all_reduce(global_cm, op=dist.ReduceOp.SUM)
+        else:
+            global_cm = local_cm.clone().detach()
+
+        if trainer.is_global_zero:
             # convert to numpy
-            sum_confusion_matrix = sum_confusion_matrix.numpy()
+            global_cm = global_cm.detach().cpu().numpy()
+            # calculate accuracy
+            conf_sum = global_cm.sum()
+            conf_correct = np.diag(global_cm).sum()
+            acc = conf_correct / conf_sum * 100
+            print(f'\n\n epoch{trainer.current_epoch}: acc: {acc:.4f}%, tested: {conf_sum}, correct: {conf_correct} \n\n')
+            # plot confusion matrix
             outdir = self.config.outdir
-            conf_mat = plot_confusion_matrix(sum_confusion_matrix, outdir, trainer.current_epoch)
-            conf_mat = plot_confusion_matrix_with_bubbles(sum_confusion_matrix, outdir, trainer.current_epoch)
-            # image = swanlab.Image(conf_mat, caption="Confusion Matrix")
-            # self.log('confusion_matrix', image)
+            plot_confusion_matrix(global_cm, outdir, trainer.current_epoch)
+            plot_confusion_matrix_with_bubbles(global_cm, outdir, trainer.current_epoch)
         # Clear the lists for the next epoch
-        self.confusion_matrices.clear()
+        self.confusion_matrices.clear()    
 
     def on_validation_batch_end(self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx=0):
-        self.batch_end(trainer, outputs)
+        self.on_batch_end(outputs)
 
     def on_test_batch_end(self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx=0):
-        self.batch_end(trainer, outputs)
+        self.on_batch_end(outputs)
         
     def on_validation_epoch_end(self, trainer, pl_module):
-        self.epoch_end(trainer)
+        self.on_epoch_end(trainer, pl_module)
         
     def on_test_epoch_end(self, trainer, pl_module):
-        self.epoch_end(trainer)
+        self.on_epoch_end(trainer, pl_module)
 
 
 class plot_predictions_callback(Callback):

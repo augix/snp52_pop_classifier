@@ -38,6 +38,12 @@ config = Namespace(
     dropout = 0.1,                     # Dropout rate
     seqlen = 2934,
 
+    # ae
+    cs = 4,
+    cd = 4,
+    beta0 = 1,
+    beta1 = 1,
+
     # attention
     n_layers = 4,                      # Number of transformer layers
     n_heads = 4,                       # Number of attention heads
@@ -46,12 +52,6 @@ config = Namespace(
     d_emb = 128,                    # Dimension of the embeddings
     d_id = 14,                         # Dimension of ID embeddings, 4 for 2^4=16, 6 for 2^6=64, 8 for 2^8=256, 10 for 2^10=1024, 12 for 2^12=4096, 14 for 2^14=16384, 16 for 2^16=65536, 2^17 for 2^17=131072, 32 for 2^32=4294967296
     
-    # ae
-    cs = 4,
-    cd = 4,
-    beta0 = 1,
-    beta1 = 1,
-
     # training 
     train_or_test = 'train',            # Whether to train or test
     max_epochs = 200,                   # Maximum number of training epochs
