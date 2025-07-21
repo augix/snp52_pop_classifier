@@ -30,7 +30,7 @@ config = Namespace(
     bs_train = 32,                      # Reduced batch size for training to save memory
     bs_val = 4,                        # Reduced batch size for validation to save memory
     n_id = 3000,                        # Number of contig IDs, 2935 for all contigs in a genome
-    mask_fraction = 0.0,               # Fraction of masking
+    mask_fraction = 0.1,               # Fraction of masking
 
     # model 
     model_py = 'model/ae.py',  # Path to model module

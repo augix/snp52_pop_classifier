@@ -2,14 +2,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def plot_confusion_matrix(conf_mat, outdir, current_epoch):
+    # save the confusion matrix as a csv file
+    np.savetxt(f'{outdir}/confusion_matrix_epoch{current_epoch}.csv', conf_mat, delimiter=',', fmt='%.4f')
+
     # rows are expected, columns are predicted
     # normalize the confusion matrix so that the sum of the matrix is 100
     total = conf_mat.flatten().sum()
     conf_mat = conf_mat / total * 100
     # Calculate accuracy by summing diagonal elements (correct predictions) and dividing by total
     accuracy = np.sum(np.diag(conf_mat)) / 100
-    # save the confusion matrix as a csv file
-    np.savetxt(f'{outdir}/confusion_matrix_epoch{current_epoch}.csv', conf_mat, delimiter=',', fmt='%.4f')
 
     plt.figure(figsize=(12, 12))
     plt.imshow(conf_mat, cmap='Blues')
