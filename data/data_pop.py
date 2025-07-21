@@ -39,12 +39,8 @@ class theDataset(Dataset):
     def init_labels(self, fn):
         print(f'init_labels: {fn}')
         df = pd.read_csv(fn, sep='\t', header=0)
-        df['person'] = [i for i in range(len(df))]
-        # subset to the populations in the config
-        df = df[df['Population'].isin(self.config.populations)]
-        df['Population_i'] = df['Population'].astype('category').cat.codes
-        self.labels = df['Population_i'].tolist()
-        self.persons = df['person'].tolist()
+        self.labels = df['pop_code'].tolist()
+        self.persons = df['person_index'].tolist()
         self.size = len(self.labels)
         print(f'{len(self.labels)} labels loaded')
     
