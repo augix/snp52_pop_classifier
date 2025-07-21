@@ -9,7 +9,7 @@ def plot_confusion_matrix(conf_mat, outdir, current_epoch):
     # Calculate accuracy by summing diagonal elements (correct predictions) and dividing by total
     accuracy = np.sum(np.diag(conf_mat)) / 100
     # save the confusion matrix as a csv file
-    np.savetxt(f'{outdir}/confusion_matrix_epoch{current_epoch}.csv', conf_mat, delimiter=',')
+    np.savetxt(f'{outdir}/confusion_matrix_epoch{current_epoch}.csv', conf_mat, delimiter=',', fmt='%.4f')
 
     plt.figure(figsize=(12, 12))
     plt.imshow(conf_mat, cmap='Blues')
@@ -87,7 +87,7 @@ def plot_confusion_matrix_with_bubbles(conf_mat, outdir, current_epoch):
     plt.close()
     
     # save the confusion matrix as a csv file
-    np.savetxt(f'{outdir}/confusion_matrix_bubble_epoch{current_epoch}.csv', conf_mat, delimiter=',')
+    np.savetxt(f'{outdir}/confusion_matrix_bubble_epoch{current_epoch}.csv', conf_mat, delimiter=',', fmt='%.4f')
     return conf_mat
 
 import os
