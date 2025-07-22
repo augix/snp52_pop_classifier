@@ -54,7 +54,7 @@ config = Namespace(
 
     # training 
     train_or_test = 'train',            # Whether to train or test
-    max_epochs = 200,                   # Maximum number of training epochs
+    max_epochs = 600,                   # Maximum number of training epochs
     strategy = 'ddp',  # Training strategy: 'ddp', 'deepspeed_stage_2', 'ddp_find_unused_parameters_true'
     precision = '32',           # Precision for training: 'bf16-true', '16-mixed', '16-true', '32-true'
     # dtype = torch.bfloat16,            # Data type for model parameters
