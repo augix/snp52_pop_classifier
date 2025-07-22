@@ -17,9 +17,9 @@ config = Namespace(
 
     # # == 1kG data ==
     fn_emb_train   = '../task48b_prepare_1kG_data/res_s3/emb.pt',
-    fn_labels_train = '../task52_pop_classifier_data/res_s1_1kG/train0.tsv',
+    fn_labels_train = '../task52_pop_classifier_data/res_s1_1kG_19pop/train0.tsv',
     fn_emb_val     = '../task48b_prepare_1kG_data/res_s3/emb.pt',
-    fn_labels_val  = '../task52_pop_classifier_data/res_s1_1kG/val0.tsv',
+    fn_labels_val  = '../task52_pop_classifier_data/res_s1_1kG_19pop/val0.tsv',
 
     n_output_values = 19,               # Number of possible output values: 0-25 populations
 
@@ -42,7 +42,7 @@ config = Namespace(
     cs = 6,
     cd = 6,
     beta0 = 1,
-    beta1 = 0,
+    beta1 = 1,
 
     # attention
     n_layers = 4,                      # Number of transformer layers
