@@ -3,7 +3,7 @@ import torch
 import os
 
 config = Namespace(
-    name = 'ae',
+    name = 'f0_ae',
     platform = 'sanya',
 
     # data 
@@ -39,10 +39,10 @@ config = Namespace(
     seqlen = 2934,
 
     # ae
-    cs = 6,
-    cd = 6,
+    cs = 4,
+    cd = 4,
     beta0 = 1,
-    beta1 = 0,
+    beta1 = 1,
 
     # attention
     n_layers = 4,                      # Number of transformer layers

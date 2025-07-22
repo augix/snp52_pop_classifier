@@ -3,8 +3,8 @@ import torch
 import os
 
 config = Namespace(
-    name = 'ae',
-    platform = 'sanya',
+    name = 'test_f0_vae',
+    train_or_test = 'test',            # Whether to train or test
 
     # data 
     data_py = 'data/data_pop.py',  # Path to data module
@@ -29,20 +29,21 @@ config = Namespace(
     cpu_per_worker = 2,                # Number of CPU cores per worker for data loading
     bs_train = 32,                      # Reduced batch size for training to save memory
     bs_val = 4,                        # Reduced batch size for validation to save memory
+    bs_test = 1,                        # Reduced batch size for testing to save memory
     n_id = 3000,                        # Number of contig IDs, 2935 for all contigs in a genome
-    mask_fraction = 0.1,               # Fraction of masking
+    mask_fraction = 0.05,               # Fraction of masking
 
     # model 
-    model_py = 'model/ae.py',  # Path to model module
+    model_py = 'model/vae.py',  # Path to model module
     model_wrapper_py = 'trainer/pl_module_ae.py',  # Path to model wrapper module
-    dropout = 0.1,                     # Dropout rate
+    dropout = 0.05,                     # Dropout rate
     seqlen = 2934,
 
     # ae
-    cs = 6,
-    cd = 6,
+    cs = 8,
+    cd = 8,
     beta0 = 1,
-    beta1 = 0,
+    beta1 = 1,
 
     # attention
     n_layers = 4,                      # Number of transformer layers
@@ -53,8 +54,7 @@ config = Namespace(
     d_id = 14,                         # Dimension of ID embeddings, 4 for 2^4=16, 6 for 2^6=64, 8 for 2^8=256, 10 for 2^10=1024, 12 for 2^12=4096, 14 for 2^14=16384, 16 for 2^16=65536, 2^17 for 2^17=131072, 32 for 2^32=4294967296
 
     # training 
-    train_or_test = 'train',            # Whether to train or test
-    max_epochs = 200,                   # Maximum number of training epochs
+    max_epochs = 1000,                   # Maximum number of training epochs
     strategy = 'ddp',  # Training strategy: 'ddp', 'deepspeed_stage_2', 'ddp_find_unused_parameters_true'
     precision = '32',           # Precision for training: 'bf16-true', '16-mixed', '16-true', '32-true'
     # dtype = torch.bfloat16,            # Data type for model parameters
